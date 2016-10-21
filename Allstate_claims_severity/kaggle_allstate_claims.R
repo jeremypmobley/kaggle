@@ -15,15 +15,15 @@ train <- read.csv('train.csv')
 
 # create feature_names variable
 feature_names <- colnames(train)
-remove_features <- c("loss", "cat116", "cat113", "cat110", "cat109")
+remove_features <- c("loss", "cat116", "cat113", "cat110", "cat109", "cat108", "cat111", "cat112")
 feature_names <- feature_names[!feature_names %in% remove_features]
 
-# subset training data set to only 10k records for performance
+# subset training data set to fist 10k records for performance
 train_subset10k <- train[1:10000,]
 
 model <- randomForest(train_subset10k[, feature_names], train_subset10k$loss, ntree = 100)
 
-preds <- predict(model, newdata=test, type='prob')
+preds <- predict(model, newdata=test)
 write.csv(submit, '100tree_simple_rf_submit.csv', quote=FALSE, row.names = FALSE)
 
 
