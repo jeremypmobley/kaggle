@@ -8,7 +8,7 @@ https://www.kaggle.com/c/allstate-claims-severity
 	- Separate Stacking R script
 	- Final ensemble mix script - add once competition ends
 	- Separate script using caret package
-- Way to track weekly progress and learnings
+- Complete Project Schedule in this README
 - License stuff?
 
 ## Project Schedule
@@ -33,6 +33,9 @@ Competition Ends: Monday Dec 12th 7pm CST
 - Clean up feature set labels
 - Understand performance of model building
 	- Set up parallel local processing
+- Create Neural Nets model
+- Create kNN model
+	- How to determine distance between points?
 
 
 
