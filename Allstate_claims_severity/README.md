@@ -21,11 +21,11 @@ Week 1:
 Week 2:
 
 
-| Week        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| Week   | Goal MAE   | Actual MAE  |
+| ------ |:----:| ----:|
+| 1      | 1150 | 1900 |
+| 2      | 1140 |      |
+| 3		 | 1130 |      |
 
 
 ### Next Steps:
