@@ -6,7 +6,7 @@ https://www.kaggle.com/c/allstate-claims-severity
 - Description of overall code structure
 	- Individual R scripts to create first level predictions
 	- Separate Stacking R script
-	- Final ensemble mix script
+	- Final ensemble mix script - add once competition ends
 	- Separate script using caret package
 - Way to track weekly progress and learnings
 - License stuff?
@@ -14,18 +14,14 @@ https://www.kaggle.com/c/allstate-claims-severity
 ## Project Schedule
 Competition Ends: Monday Dec 12th 7pm CST
 
-Week 1: 
-	Goal Leaderboard MAE: 1150
-	Actual Leaderboard MAE: XXX
 
-Week 2:
-
-
-| Week   | Goal MAE   | Actual MAE  |
-| ------ |:----:| ----:|
+| Week   | Goal MAE   | Actual MAE |
+| ------ |:----:|:----:|
 | 1      | 1150 | 1900 |
 | 2      | 1140 |      |
 | 3		 | 1130 |      |
+
+
 
 
 ### Next Steps:
