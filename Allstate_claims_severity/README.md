@@ -27,8 +27,6 @@ Competition Ends: Monday Dec 12th 7pm CST
 
 
 
-
-
 ### Next Steps:
 - Tune Random Forest level 1 preds
 	- Make submissions
