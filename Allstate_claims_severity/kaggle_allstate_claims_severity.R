@@ -5,6 +5,7 @@
 
 
 library(randomForest)
+library(Metrics)
 
 
 ####################################
@@ -19,16 +20,6 @@ train <- read.csv('train.csv')
 
 ####################################
 
-
-
-# Helper functions
-
-# is this any different than mae?
-
-# model evaluation function
-calc_mae <- function(preds, actuals){
-  mean(abs(preds - actuals))
-}
 
 
 
@@ -49,19 +40,10 @@ for (feature in colnames(train)){
 }
 
 # create model_features variable
-model_features <- num_features[!num_features %in% remove_features]
+model_features_num <- num_features[!num_features %in% remove_features]
 
-# clean up working environment
-rm(feature, num_features, remove_features)
-
-
-# create model_features2 with "cat1" and all numeric features
-model_features2 <- c(model_features,"cat1")
-model_features3 <- c(model_features,"cat1", "cat2")
-
-
-# model_features4: all numeric features, all categorical features with same levels between train and test
-model_features4 <- all_feature_names
+# model_features_all: all numeric features, all categorical features with same levels between train and test
+model_features_all <- all_feature_names
 
 # which features have values in test not in train?
 #http://stats.stackexchange.com/questions/29446/random-forest-and-new-factor-levels-in-test-set
@@ -73,36 +55,45 @@ for(attr in all_feature_names)
     if ( length(all.levels) != 0 ) {
       print(paste0(attr, ": ", length(levels(train[[attr]])), 
                    " train levels, ", length(levels(test[[attr]])), " in test"))
-      model_features4 <- model_features4[!model_features4 %in% attr]
-      # update levels in train
-      #levels(test[[attr]]) <- union(levels(test[[attr]]), levels(train[[attr]]))
+      model_features_all <- model_features_all[!model_features_all %in% attr]
+      # update levels in test
+      levels(test[[attr]]) <- union(levels(test[[attr]]), levels(train[[attr]]))
     }
   }
 }
 
+model_features_all <- model_features_all[!model_features_all %in% remove_features]
+
+# clean up working environment
+rm(feature, remove_features, attr, all.levels, num_features, model_features)
+
+
+
+
+
 
 
 ####################################
-# Create single RF model on subset of train, apply to test
+# Create single RF model on small subset of train, apply to test
 
 # subset training data set to randomly selected records
 set.seed(123)
-num_records <- 30000
+num_records <- 1000
 samp_idx <- sample(1:nrow(train), size = num_records)
 
 # train RF model, subset by sample
 num_trees <- 100
-model <- randomForest(train[samp_idx, model_features], train$loss[samp_idx], ntree = num_trees)
+model <- randomForest(train[samp_idx, model_features_num], train$loss[samp_idx], ntree = num_trees)
 
 # create preds
 test_preds <- predict(model, test)
 train_preds <- predict(model, train)
 
 # calc MAE model evaluation metric
-#calc_mae(train_preds, train$loss)
+mae(train_preds, train$loss)
 
 # look at variable importance
-#varImpPlot(model)
+varImpPlot(model)
 #model$importance
 
 # create submission file
@@ -237,46 +228,45 @@ print(Sys.time() - start_time)
 ####################################
 
 # 10/24-10/30 First coding week
-  # Main tasks:
-    # Get good set of base features to use in modeling
-    # Tune Random Forest submission
-    # Create xgboost submission
-    # Create CV framework
-    # Finish project plan
-      # Meet with Jen/Sarah for tips on how to create project plans
+# Main tasks:
+# Get good set of base features to use in modeling
+# Tune Random Forest submission
+# Create xgboost submission
+# Create CV framework
+# Finish project plan
+# Meet with Jen/Sarah for tips on how to create project plans
 # Goal: 1140 on public leaderboard
 # 10/31-11/6 Halloween week
-  # Main tasks:
-    # Feature Engineering
-      #t-SNE algorithm
-        #https://github.com/oreillymedia/t-SNE-tutorial
-        #https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding
-    # Create caret version
-  # Goal: 1130 on public leaderboard
+# Main tasks:
+# Feature Engineering
+#t-SNE algorithm
+#https://github.com/oreillymedia/t-SNE-tutorial
+#https://en.wikipedia.org/wiki/T-distributed_stochastic_neighbor_embedding
+# Create caret version
+# Goal: 1130 on public leaderboard
 # 11/7-11/13
-  # Main tasks:
-    # Feature Engineering
-  # Goal: 1120 on public leaderboard
+# Main tasks:
+# Feature Engineering
+# Goal: 1120 on public leaderboard
 # 11/14-11/20
-  # Main tasks:
-    # Continue model iterations
-  # Goal: 1115 on public leaderboard
+# Main tasks:
+# Continue model iterations
+# Goal: 1115 on public leaderboard
 # 11/21-11/27: Thanksgiving Week
-  # Main tasks:
-    # Continue model iterations
-  # Goal: 1110 on public leaderboard
+# Main tasks:
+# Continue model iterations
+# Goal: 1110 on public leaderboard
 # 11/28-12/4: 2 weeks to go
-  # Main tasks:
-    # Stack models
-  # Goal: 1105 on public leaderboard
+# Main tasks:
+# Stack models
+# Goal: 1105 on public leaderboard
 # 12/5-12/11: Last week
-  # Main tasks:
-    # Create final ensemble submission
-  # Goal: 1100 on public leaderboard
+# Main tasks:
+# Create final ensemble submission
+# Goal: 1100 on public leaderboard
 # ENDS: Monday 12/12 midnight UTC time, 7pm CST
 
 ####################################
-
 
 
 
